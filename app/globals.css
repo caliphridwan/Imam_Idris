@@ -1,0 +1,61 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply bg-paper font-sans text-ink antialiased;
+    font-size: 1.0625rem;
+    line-height: 1.65;
+  }
+  h1,
+  h2,
+  h3 {
+    @apply font-display text-ink;
+    letter-spacing: -0.01em;
+    line-height: 1.15;
+  }
+  ::selection {
+    @apply bg-gold-light text-ink;
+  }
+  :focus-visible {
+    @apply outline outline-2 outline-offset-2 outline-gold;
+  }
+}
+
+@layer components {
+  .eyebrow {
+    @apply text-xs font-semibold uppercase tracking-[0.18em] text-gold-text;
+  }
+  .btn {
+    @apply inline-flex min-h-[44px] items-center justify-center gap-2 rounded-full px-6 text-sm font-semibold transition-colors;
+  }
+  .btn-primary {
+    @apply inline-flex min-h-[44px] items-center justify-center gap-2 rounded-full px-6 text-sm font-semibold transition-colors bg-green text-paper hover:bg-green-deep;
+  }
+  .btn-outline {
+    @apply inline-flex min-h-[44px] items-center justify-center gap-2 rounded-full px-6 text-sm font-semibold transition-colors border border-ink/25 text-ink hover:border-ink hover:bg-ink hover:text-paper;
+  }
+  .btn-light {
+    @apply inline-flex min-h-[44px] items-center justify-center gap-2 rounded-full px-6 text-sm font-semibold transition-colors bg-paper text-green-deep hover:bg-gold-light;
+  }
+  .link {
+    @apply font-semibold text-green underline decoration-gold decoration-2 underline-offset-4 hover:text-green-deep;
+  }
+  /* Arch-topped frame, echoing a mihrab niche */
+  .arch {
+    border-radius: 999px 999px 1.25rem 1.25rem;
+  }
+  .field {
+    @apply block w-full rounded-lg border border-line bg-white px-4 py-3 text-base text-ink placeholder:text-ink-soft/70 focus:border-green focus:outline-none focus:ring-2 focus:ring-green/20;
+  }
+  .prose-body p {
+    @apply mb-5;
+  }
+  .prose-body h2 {
+    @apply mb-3 mt-10 text-2xl;
+  }
+}

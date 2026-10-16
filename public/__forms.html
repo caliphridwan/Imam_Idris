@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<!-- Lets Netlify detect the contact form at build time (Next.js runtime v5). Keep fields in sync with components/ContactForm.tsx. -->
+<html>
+  <body>
+    <form name="contact" data-netlify="true" netlify-honeypot="bot-field" hidden>
+      <input type="hidden" name="form-name" value="contact" />
+      <input name="bot-field" />
+      <input name="name" />
+      <input name="email" type="email" />
+      <input name="phone" />
+      <select name="purpose">
+        <option>Lecture booking</option>
+        <option>Seminar or conference presentation</option>
+        <option>Academic enquiry</option>
+        <option>Other</option>
+      </select>
+      <textarea name="message"></textarea>
+    </form>
+  </body>
+</html>
