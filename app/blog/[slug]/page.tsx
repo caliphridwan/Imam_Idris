@@ -5,6 +5,8 @@ import { notFound } from "next/navigation";
 import { formatDate, getPost, posts } from "@/lib/posts";
 import { site } from "@/lib/site";
 import { ArrowRight, Calendar } from "@/components/Icons";
+import ReadingProgress from "@/components/ReadingProgress";
+import { delay } from "@/lib/motion";
 
 type Params = { params: { slug: string } };
 
@@ -28,8 +30,9 @@ export default function PostPage({ params }: Params) {
 
   return (
     <article>
+      <ReadingProgress />
       <header className="border-b border-line bg-paper-deep">
-        <div className="container max-w-3xl py-14 md:py-20">
+        <div className="container max-w-3xl animate-rise py-14 md:py-20" style={delay(80)}>
           <Link href="/blog" className="text-sm font-semibold text-green hover:underline">← All articles</Link>
           <ul className="mt-6 flex flex-wrap gap-2">
             {post.tags.map((t) => (
@@ -49,7 +52,7 @@ export default function PostPage({ params }: Params) {
 
       {post.cover && (
         <div className="container max-w-4xl -mb-4 pt-10">
-          <div className="relative aspect-[16/9] overflow-hidden rounded-2xl bg-green">
+          <div className="relative aspect-[16/9] animate-rise overflow-hidden rounded-2xl bg-green" style={delay(250)}>
             <Image src={post.cover} alt={post.coverAlt ?? ""} fill priority sizes="(min-width: 1024px) 56rem, 100vw" className="object-cover" />
           </div>
         </div>
@@ -71,7 +74,7 @@ export default function PostPage({ params }: Params) {
         </div>
 
         {post.discussionUrl && (
-          <div className="mt-12 rounded-2xl border border-line bg-white p-6">
+          <div className="reveal mt-12 rounded-2xl border border-line bg-white p-6">
             <p className="font-display text-xl">Join the conversation</p>
             <p className="mt-1 text-ink-soft">This article was shared and discussed on X.</p>
             <a href={post.discussionUrl} target="_blank" rel="noopener noreferrer" className="link mt-3 inline-flex items-center gap-2">

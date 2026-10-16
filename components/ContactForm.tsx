@@ -30,7 +30,7 @@ export default function ContactForm() {
 
   if (status === "sent") {
     return (
-      <div role="status" className="rounded-2xl border border-green/30 bg-green-light p-8">
+      <div role="status" className="animate-rise rounded-2xl border border-green/30 bg-green-light p-8">
         <h3 className="text-2xl">Jazakallahu khayran — message received.</h3>
         <p className="mt-2 text-ink-soft">Your message has been sent. You will receive a reply by email.</p>
         <button type="button" className="btn-outline mt-6" onClick={() => setStatus("idle")}>

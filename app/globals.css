@@ -59,3 +59,111 @@
     @apply mb-3 mt-10 text-2xl;
   }
 }
+
+/* ───────────────────────── Motion ─────────────────────────
+   Entrance animations run on load via CSS. Scroll reveals are
+   driven by components/RevealObserver.tsx, which adds .is-visible.
+   Content is only hidden when JS is running (html.js), so the
+   site stays readable without JavaScript. */
+
+:root {
+  --ease-out: cubic-bezier(0.2, 0.7, 0.2, 1);
+  --ease-in-out: cubic-bezier(0.7, 0, 0.2, 1);
+}
+
+@keyframes rise {
+  from { opacity: 0; transform: translateY(18px); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes unveil {
+  from { clip-path: inset(100% 0 0 0 round 999px 999px 1.25rem 1.25rem); }
+  to { clip-path: inset(0 0 0 0 round 999px 999px 1.25rem 1.25rem); }
+}
+@keyframes settle {
+  from { transform: scale(1.12); }
+  to { transform: scale(1); }
+}
+@keyframes spin-slow {
+  to { transform: rotate(360deg); }
+}
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes drop {
+  from { opacity: 0; transform: translateY(-8px); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes marquee {
+  to { transform: translateX(-50%); }
+}
+
+.animate-rise { animation: rise 0.9s var(--ease-out) both; animation-delay: var(--d, 0ms); }
+.animate-unveil { animation: unveil 1.3s var(--ease-in-out) both; animation-delay: var(--d, 0ms); }
+.animate-settle { animation: settle 2.2s var(--ease-out) both; animation-delay: var(--d, 0ms); }
+.animate-page-in { animation: fade-in 0.5s ease-out both; }
+.animate-drop { animation: drop 0.25s var(--ease-out) both; }
+.spin-slow { animation: spin-slow 120s linear infinite; }
+.spin-slow-reverse { animation: spin-slow 160s linear infinite reverse; }
+
+/* Scroll reveal */
+.js .reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.9s var(--ease-out), transform 0.9s var(--ease-out);
+  transition-delay: var(--d, 0ms);
+}
+.js .reveal.is-visible { opacity: 1; transform: none; }
+
+/* Word-by-word reveal (used for the Qur'anic verse) */
+.reveal-words > span { display: inline-block; }
+.js .reveal-words > span {
+  opacity: 0;
+  transform: translateY(0.45em);
+  filter: blur(4px);
+  transition: opacity 0.8s var(--ease-out), transform 0.8s var(--ease-out), filter 0.8s var(--ease-out);
+  transition-delay: calc(var(--i, 0) * 110ms + var(--d, 0ms));
+}
+.js .reveal-words.is-visible > span { opacity: 1; transform: none; filter: none; }
+
+/* Timeline line draws downward */
+.js .reveal-line::before { transform: scaleY(0); }
+.reveal-line::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: rgb(184 137 58 / 0.5);
+  transform-origin: top;
+  transition: transform 1.6s var(--ease-in-out);
+}
+.js .reveal-line.is-visible::before { transform: scaleY(1); }
+
+/* Infinite marquee; pauses on hover */
+.marquee-track { animation: marquee 40s linear infinite; }
+.marquee:hover .marquee-track { animation-play-state: paused; }
+
+/* Gold underline that draws in on hover */
+.underline-draw {
+  background-image: linear-gradient(currentColor, currentColor);
+  background-size: 0% 1px;
+  background-repeat: no-repeat;
+  background-position: 0 100%;
+  transition: background-size 0.35s var(--ease-out);
+}
+.underline-draw:hover { background-size: 100% 1px; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    transition-delay: 0ms !important;
+    scroll-behavior: auto !important;
+  }
+  .marquee-track { animation: none !important; }
+  .js .reveal, .js .reveal-words > span { opacity: 1; transform: none; filter: none; }
+  .js .reveal-line::before { transform: none; }
+}

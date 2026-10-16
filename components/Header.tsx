@@ -5,21 +5,42 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { nav, site } from "@/lib/site";
+import { delay } from "@/lib/motion";
 import { Close, Download, Menu } from "./Icons";
 
 export default function Header() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
 
+  const [scrolled, setScrolled] = useState(false);
+
   useEffect(() => setOpen(false), [pathname]);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 12);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   const isActive = (href: string) => (href === "/" ? pathname === "/" : pathname.startsWith(href));
 
   return (
-    <header className="sticky top-0 z-40 border-b border-line/70 bg-paper/90 backdrop-blur">
+    <header
+      className={`sticky top-0 z-40 border-b bg-paper/90 backdrop-blur transition-[box-shadow,border-color] duration-300 ${
+        scrolled ? "border-line shadow-[0_8px_24px_-16px_rgba(23,33,29,0.35)]" : "border-transparent"
+      }`}
+    >
       <div className="container flex h-16 items-center justify-between gap-4 md:h-20">
-        <Link href="/" className="flex items-center gap-3" aria-label={`${site.shortTitle} — home`}>
-          <Image src={site.images.logo} alt="" width={40} height={40} className="h-10 w-10 rounded-full object-contain" priority />
+        <Link href="/" className="group flex items-center gap-3" aria-label={`${site.shortTitle} — home`}>
+          <Image
+            src={site.images.logo}
+            alt=""
+            width={40}
+            height={40}
+            className="h-10 w-10 rounded-full object-contain transition-transform duration-500 group-hover:rotate-[22.5deg]"
+            priority
+          />
           <span className="leading-tight">
             <span className="block font-display text-lg font-semibold">{site.name}</span>
             <span className="block text-xs text-ink-soft">Educationist · Islamic Scholar</span>
@@ -32,8 +53,8 @@ export default function Header() {
               key={item.href}
               href={item.href}
               aria-current={isActive(item.href) ? "page" : undefined}
-              className={`rounded-full px-4 py-2 text-sm font-semibold transition-colors ${
-                isActive(item.href) ? "bg-green-light text-green-deep" : "text-ink-soft hover:text-ink"
+              className={`rounded-full px-4 py-2 text-sm font-semibold transition-colors duration-300 ${
+                isActive(item.href) ? "bg-green-light text-green-deep" : "text-ink-soft hover:bg-paper-deep hover:text-ink"
               }`}
             >
               {item.label}
@@ -57,10 +78,10 @@ export default function Header() {
       </div>
 
       {open && (
-        <nav id="mobile-nav" aria-label="Main" className="border-t border-line bg-paper lg:hidden">
+        <nav id="mobile-nav" aria-label="Main" className="animate-drop border-t border-line bg-paper lg:hidden">
           <ul className="container flex flex-col py-3">
-            {nav.map((item) => (
-              <li key={item.href}>
+            {nav.map((item, i) => (
+              <li key={item.href} className="animate-rise" style={delay(40 + i * 45)}>
                 <Link
                   href={item.href}
                   aria-current={isActive(item.href) ? "page" : undefined}

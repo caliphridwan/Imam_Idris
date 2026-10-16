@@ -4,6 +4,7 @@ import Link from "next/link";
 import PageHeader from "@/components/PageHeader";
 import { Download } from "@/components/Icons";
 import { education, positions, researchInterests, service, site } from "@/lib/site";
+import { delay } from "@/lib/motion";
 
 export const metadata: Metadata = {
   title: "About",
@@ -21,8 +22,15 @@ export default function AboutPage() {
 
       <section className="container grid gap-12 py-16 md:py-20 lg:grid-cols-[22rem_1fr] lg:gap-16">
         <aside className="lg:sticky lg:top-28 lg:self-start">
-          <div className="arch relative aspect-[4/5] overflow-hidden bg-green">
-            <Image src={site.images.portrait} alt="Imam Idris A. Oni" fill sizes="(min-width: 1024px) 22rem, 90vw" className="object-cover" />
+          <div className="arch relative aspect-[4/5] animate-unveil overflow-hidden bg-green" style={delay(200)}>
+            <Image
+              src={site.images.portrait}
+              alt="Imam Idris A. Oni"
+              fill
+              sizes="(min-width: 1024px) 22rem, 90vw"
+              className="animate-settle object-cover"
+              style={delay(200)}
+            />
           </div>
           <a href={site.cv} download className="btn-primary mt-6 w-full">
             <Download width={16} height={16} /> Download full CV
@@ -38,7 +46,7 @@ export default function AboutPage() {
         </aside>
 
         <div>
-          <div className="max-w-prose space-y-5 text-lg">
+          <div className="reveal max-w-prose space-y-5 text-lg">
             <p>
               Imam Idris A. Oni was born in the 1980s to Alhaji and Alhaja Abdur-Rasaq Oni. His Arabic and Islamic
               training began early, at Markaz Da‘wah al-Islāmiyyah under the late Ustadh AbdulWaheed Jumu‘ah.
@@ -58,8 +66,8 @@ export default function AboutPage() {
 
           <h2 className="mt-14 text-3xl">Current positions</h2>
           <ul className="mt-6 grid gap-4 sm:grid-cols-3">
-            {positions.map((p) => (
-              <li key={p.role} className="rounded-2xl border border-line bg-white p-5">
+            {positions.map((p, i) => (
+              <li key={p.role} className="reveal rounded-2xl border border-line bg-white p-5" style={delay(i * 110)}>
                 <h3 className="text-lg">{p.role}</h3>
                 <p className="mt-1 text-sm text-ink-soft">{p.place}</p>
               </li>
@@ -67,10 +75,10 @@ export default function AboutPage() {
           </ul>
 
           <h2 className="mt-14 text-3xl">Education</h2>
-          <ol className="mt-6 border-l-2 border-gold/50">
-            {education.map((e) => (
-              <li key={e.title} className="relative pb-8 pl-8 last:pb-0">
-                <span className="absolute -left-[7px] top-2 h-3 w-3 rotate-45 bg-gold" aria-hidden="true" />
+          <ol className="reveal-line relative mt-6">
+            {education.map((e, i) => (
+              <li key={e.title} className="reveal relative pb-8 pl-8 last:pb-0" style={delay(200 + i * 160)}>
+                <span className="absolute -left-[5px] top-2 h-3 w-3 rotate-45 bg-gold" aria-hidden="true" />
                 <p className="text-sm font-semibold uppercase tracking-wider text-gold-text">{e.period}</p>
                 <h3 className="mt-1 text-xl">{e.title}</h3>
                 <p className="text-ink-soft">{e.place}</p>
