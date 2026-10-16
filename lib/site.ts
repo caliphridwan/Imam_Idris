@@ -125,11 +125,14 @@ export const programs: Program[] = [
   {
     title: "With Baba Adinni of Shagamu, Alhaji Apelogun, at the Remo Rabitah Seminar",
     location: "Shagamu, Nigeria",
+    image: "/assets/images/shagam.jpg",
     year: "2023",
   },
   {
     title: "With Professor Dawud al-Hidabi, Rector, International Institute of Muslim Unity (IIUM)",
     location: "International presentation",
+    image: "/assets/images/dr.idris_oni1.jpg",
+    
   },
 ];
 
